@@ -8,7 +8,7 @@ model = joblib.load('C:\\Users\\kotip\\Desktop\\Spotify_Hit _Prediction\\models\
 scaler = joblib.load('C:\\Users\\kotip\\Desktop\\Spotify_Hit _Prediction\\models\\scaler.pkl')
 
 @app.route('/')
-def home():
+def home():\
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])

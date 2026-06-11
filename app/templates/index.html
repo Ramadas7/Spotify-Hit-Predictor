@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Hit Predictor</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">🎵</div>
+            <h1>Spotify Hit Predictor</h1>
+            <p>Enter a song's details to predict if it'll be a Hit</p>
+        </div>
+
+        <form action="/predict" method="POST">
+
+            <!-- Section 1: Song Info -->
+            <div class="section-title">🎤 Song Information</div>
+            <div class="grid">
+                <div class="input-group">
+                    <label>Track Name</label>
+                    <input type="text" name="track" placeholder="e.g. Blinding Lights" required>
+                </div>
+                <div class="input-group">
+                    <label>Artist</label>
+                    <input type="text" name="artist" placeholder="e.g. The Weeknd" required>
+                </div>
+                <div class="input-group">
+                    <label>Spotify URI</label>
+                    <input type="text" name="uri" placeholder="e.g. spotify:track:xxxxx">
+                </div>
+            </div>
+
+            <!-- Section 2: Core Audio Features -->
+            <div class="section-title">🎛️ Core Audio Features</div>
+            <div class="grid">
+                <div class="input-group">
+                    <label>Danceability <span>(0.0 - 1.0)</span></label>
+                    <input type="number" name="danceability" step="0.01" min="0" max="1" placeholder="e.g. 0.85" required>
+                </div>
+                <div class="input-group">
+                    <label>Energy <span>(0.0 - 1.0)</span></label>
+                    <input type="number" name="energy" step="0.01" min="0" max="1" placeholder="e.g. 0.75" required>
+                </div>
+                <div class="input-group">
+                    <label>Loudness <span>(-60 to 0 dB)</span></label>
+                    <input type="number" name="loudness" step="0.01" min="-60" max="0" placeholder="e.g. -5.5" required>
+                </div>
+                <div class="input-group">
+                    <label>Valence <span>(0.0 - 1.0)</span></label>
+                    <input type="number" name="valence" step="0.01" min="0" max="1" placeholder="e.g. 0.65" required>
+                </div>
+                <div class="input-group">
+                    <label>Tempo <span>(BPM)</span></label>
+                    <input type="number" name="tempo" step="0.01" min="0" max="300" placeholder="e.g. 120.5" required>
+                </div>
+                <div class="input-group">
+                    <label>Duration <span>(milliseconds)</span></label>
+                    <input type="number" name="duration_ms" step="1" min="0" placeholder="e.g. 200000" required>
+                </div>
+            </div>
+
+            <!-- Section 3: Musical Properties -->
+            <div class="section-title">🎼 Musical Properties</div>
+            <div class="grid">
+                <div class="input-group">
+                    <label>Key <span>(0 - 11)</span></label>
+                    <input type="number" name="key" step="1" min="0" max="11" placeholder="e.g. 5" required>
+                </div>
+                <div class="input-group">
+                    <label>Mode <span>(0 = Minor, 1 = Major)</span></label>
+                    <input type="number" name="mode" step="1" min="0" max="1" placeholder="e.g. 1">
+                    <small>Not used in prediction</small>
+                </div>
+                <div class="input-group">
+                    <label>Time Signature <span>(beats per bar)</span></label>
+                    <input type="number" name="time_signature" step="1" min="0" max="5" placeholder="e.g. 4">
+                    <small>Not used in prediction</small>
+                </div>
+                <div class="input-group">
+                    <label>Sections <span>(count)</span></label>
+                    <input type="number" name="sections" step="1" min="0" placeholder="e.g. 10" required>
+                </div>
+                <div class="input-group">
+                    <label>Chorus Hit <span>(seconds)</span></label>
+                    <input type="number" name="chorus_hit" step="0.01" min="0" placeholder="e.g. 35.5" required>
+                </div>
+            </div>
+
+            <!-- Section 4: Sound Character -->
+            <div class="section-title">🔊 Sound Character</div>
+            <div class="grid">
+                <div class="input-group">
+                    <label>Speechiness <span>(0.0 - 1.0)</span></label>
+                    <input type="number" name="speechiness" step="0.01" min="0" max="1" placeholder="e.g. 0.05" required>
+                </div>
+                <div class="input-group">
+                    <label>Acousticness <span>(0.0 - 1.0)</span></label>
+                    <input type="number" name="acousticness" step="0.01" min="0" max="1" placeholder="e.g. 0.10" required>
+                </div>
+                <div class="input-group">
+                    <label>Instrumentalness <span>(0.0 - 1.0)</span></label>
+                    <input type="number" name="instrumentalness" step="0.01" min="0" max="1" placeholder="e.g. 0.00" required>
+                </div>
+                <div class="input-group">
+                    <label>Liveness <span>(0.0 - 1.0)</span></label>
+                    <input type="number" name="liveness" step="0.01" min="0" max="1" placeholder="e.g. 0.12" required>
+                </div>
+            </div>
+
+            <button type="submit">🎯 Predict Hit</button>
+        </form>
+
+        <!-- Result -->
+        {% if result %}
+        <div class="result-box {% if 'HIT' in result %}hit{% else %}nohit{% endif %}">
+            <div class="song-info">
+                <span>🎵 {{ song_name }}</span> by <span>{{ artist_name }}</span>
+            </div>
+            <h2>{{ result }}</h2>
+            <p>Confidence: <strong>{{ confidence }}</strong></p>
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>
